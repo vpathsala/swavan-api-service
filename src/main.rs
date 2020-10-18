@@ -1,23 +1,23 @@
-use actix_web::{ middleware, web, App, HttpServer,  http::ContentEncoding};
+use actix_web::{ middleware, App, HttpServer,  http::ContentEncoding};
+#[macro_use] extern crate log;
 
 mod handlers;
-mod schema;
-
+mod schemas;
+mod config;
 
 #[actix_rt::main]
 async fn main()-> std::io::Result<()> {
-   std::env::set_var("RUST_LOG", "actix_web=info");
+   std::env::set_var("RUST_LOG", "actix_web=debug");
    env_logger::init();
 
    HttpServer::new(|| {
         App::new()
             .wrap(middleware::Logger::default())
+            .wrap(middleware::Logger::new("%a %{User-Agent}i"))
             .wrap(middleware::Compress::new(ContentEncoding::Br))
-            .service(web::resource("/").route(web::get().to(handlers::get_raw)))
+            .configure(handlers::app_config)
    })
    .bind("127.0.0.1:8080")?
    .run()
    .await
-
 }
-
