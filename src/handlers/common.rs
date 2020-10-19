@@ -18,12 +18,19 @@ use openssl::ssl::{SslConnector, SslMethod};
 
 
 pub async fn https_client() -> Client {
-    let builder = SslConnector::builder(SslMethod::tls()).unwrap();
-
-    let client = Client::builder()
-        .connector(Connector::new().ssl(builder.build()).finish())
-        .finish();
-    return client
+    let builder = SslConnector::builder(SslMethod::tls());
+    match builder {
+        Ok(context) => {
+            Client::builder()
+            .connector(Connector::new().ssl(context.build()).finish())
+            .finish()
+        },
+        Err(err) => {
+            println!("SSL issue: {:?}", err);
+            error!("SSL issue: {:?}", err);
+            panic!();
+        }
+    }
 }
 
 pub async fn no_content_handler(responses: Vec<Result<ClientResponse<Decoder<Payload<Pin<Box<dyn Stream<Item = Result<Bytes, PayloadError>>>>>>>, SendRequestError>>) -> HttpResponse {
