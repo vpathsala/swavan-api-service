@@ -20,9 +20,13 @@ SwaVan cannot mock api without this middlelayer service as you can see in the fl
 
 Run the swavan-api middlelayer service using docker
 
-Command to pull the image from dockerhub
+Command to pull the image from dockerhub or github
 ```
 docker pull biplabsamu/swavan-api:0.0.19
+
+OR
+
+docker pull docker.pkg.github.com/vpathsala/swavan-api-service/swavan-api:0.0.19
 ```
 
 If you like to build image locally ( Clone this repo first )
@@ -33,4 +37,9 @@ If you like to build image locally ( Clone this repo first )
 Command to run docker image
 ```
 docker run --rm --name swavan-api-service -p 5000:8080 biplabsamu/swavan-api:0.0.19
+
+or 
+
+docker run --rm --name swavan-api-service -p 5000:8080 docker.pkg.github.com/vpathsala/swavan-api-service/swavan-api:0.0.19
+
 ```
