@@ -8,7 +8,6 @@ pub async fn post(
     state: web::Data<config::Configuration>,
     mocks: web::Json<Vec<schemas::post::Mock<Vec<schemas::common::Header>>>>) -> HttpResponse {
     let client = super::common::https_client().await;
-    //let url = "https://api.mocky.io/api/mock";
     let items = mocks
     .iter()
     .map(|x| {

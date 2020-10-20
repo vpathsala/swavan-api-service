@@ -4,7 +4,6 @@ use crate::schemas;
 use crate::config;
 
 pub async fn get(state: web::Data<config::Configuration>, web::Path(id): web::Path<String>) -> HttpResponse {
-    //let base_url = "https://api.mocky.io/api/mock/";
     let url = format!("{}/{}", state.api_server, id);
     let response = super::common::https_client()
         .await
@@ -52,4 +51,8 @@ pub async fn get(state: web::Data<config::Configuration>, web::Path(id): web::Pa
             }
         }
     }
+}
+
+pub async fn health() -> HttpResponse {
+    HttpResponse::Ok().body("OK")
 }
