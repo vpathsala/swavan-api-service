@@ -11,7 +11,7 @@ use crate::config;
 pub fn app_config(config: &mut web::ServiceConfig) {
     config.service(
         web::scope("mock/v1")
-            .data(web::PayloadConfig::new(1 << 25))
+            .data(web::JsonConfig::default().limit(1024 * 1024 * 50))
             .data( config::Configuration{ ..Default::default()} )
             .service(web::resource("/{id}").route(web::get().to(get::get)))
             .service(web::resource("")
